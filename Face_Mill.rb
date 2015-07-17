@@ -1,8 +1,3 @@
-#________check that all variables are used
-#move to home?
-#consistent comment syntax
-#setup instructions and introduction. describe to the user what the program will do.
-
 #explain the program
 	puts ""
 	puts "This utility creates a climb milling CNC program which can be used to machine a rectangular flat surface."
@@ -102,10 +97,10 @@ end
 
 #if the material's height or width is exactly divisible by the radial depth of cut, there may be a very small line of uncut material in the center of the stock.
 #in this case, feed through the center of the stock to remove any remaining material.
-if remaining_x_stock == 0
+if remaining_x_stock == 0.000
 	puts "G1 X#{(width/2).round(3)}" 	#feed to the x center of the stock
 	puts "G1 Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}" #feed to the top end of the last upward cut in the Y direction
-elsif remaining_y_stock == 0
+elsif remaining_y_stock == 0.000
 	puts "G1 Y#{(height/2).round(3)}" #feed to the y center of the stock
 	puts "G1 X#{(-tool_radius + i*radial_depth_of_cut).round(3)}" #feed to the right end of the last rightward cut in the X direction
 end
