@@ -66,13 +66,13 @@ puts "T#{tool_number}M06"
 
 #assumes approach in +X direction from -X position
 #rapid feed to safe position before machining
-puts "G0X#{(-2*tool_radius).round(2)}Y#{(-2*tool_radius).round(2)}"
+puts "G0X#{(-2*tool_radius).round(3)}Y#{(-2*tool_radius).round(3)}"
 
 #create block specifying spindle speed. start the spindle. start coolant flow.
 puts "S#{spindle_speed}M03M08"
 
 #create block for feed to position of first cut. include the feedrate.
-puts "G1X#{(-tool_radius + radial_depth_of_cut).round(2)}Y#{(-tool_radius + radial_depth_of_cut).round(2)}F#{feedrate.round(2)}"
+puts "G1X#{(-tool_radius + radial_depth_of_cut).round(3)}Y#{(-tool_radius + radial_depth_of_cut).round(3)}F#{feedrate.round(3)}"
 
 #define some variables needed in the toolpath generating loop
 i = 1.000
@@ -80,11 +80,11 @@ remaining_x_stock = width
 remaining_y_stock = height
 
 #feed around the successively shorter edges of the stock
-while remaining_x_stock > 0 and remaining_x_stock > 0
+while remaining_x_stock > 0 && remaining_y_stock > 0
 
-puts "G1Y#{(height + tool_radius - i*radial_depth_of_cut).round(2)}"
-puts "G1X#{(width + tool_radius -i*radial_depth_of_cut).round(2)}"
-puts "G1Y#{(-tool_radius + i*radial_depth_of_cut).round(2)}"
+puts "G1Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}"
+puts "G1X#{(width + tool_radius -i*radial_depth_of_cut).round(3)}"
+puts "G1Y#{(-tool_radius + i*radial_depth_of_cut).round(3)}"
 
 i = i + 1.000
 
