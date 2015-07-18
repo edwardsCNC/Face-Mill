@@ -79,34 +79,49 @@ i = 1.000
 remaining_x_stock = width
 remaining_y_stock = height
 
-#feed around the successively shorter edges of the stock
-while remaining_x_stock > 0 && remaining_y_stock > 0
+#feed around the successively shorter edges of the stock. exit loop if remaining stock along either X or Y axis is zero
+until remaining_x_stock < 0 || remaining_y_stock < 0
 
-puts "G1Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}"
-puts "G1X#{(width + tool_radius -i*radial_depth_of_cut).round(3)}"
-puts "G1Y#{(-tool_radius + i*radial_depth_of_cut).round(3)}"
+	puts "G1Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}"
+		remaining_x_stock = remaining_x_stock - radial_depth_of_cut
+		if remaining_x_stock < 0
+			break
+		end
 
-i = i + 1.000
+	puts "G1X#{(width + tool_radius -i*radial_depth_of_cut).round(3)}"
+		remaining_y_stock = remaining_y_stock - radial_depth_of_cut
+		if remaining_y_stock < 0
+			break
+		end
 
-puts "G1 X#{(-tool_radius + i*radial_depth_of_cut).round(3)}"
+	puts "G1Y#{(-tool_radius + i*radial_depth_of_cut).round(3)}"
+		remaining_x_stock = remaining_x_stock - radial_depth_of_cut 
+		if remaining_x_stock < 0
+			break
+		end
 
-remaining_x_stock = width - 2*(i - 1)*radial_depth_of_cut
-remaining_y_stock = height - 2*(i - 1)*radial_depth_of_cut
+	i = i + 1.000
+
+	puts "G1X#{(-tool_radius + i*radial_depth_of_cut).round(3)}"
+		remaining_y_stock = remaining_y_stock - radial_depth_of_cut
+		if remaining_y_stock < 0
+			break
+		end
 
 end
 
 #if the material's height or width is exactly divisible by the radial depth of cut, there may be a very small line of uncut material in the center of the stock.
 #in this case, feed through the center of the stock to remove any remaining material.
 if remaining_x_stock == 0.000
-	puts "G1 X#{(width/2).round(3)}" 	#feed to the x center of the stock
-	puts "G1 Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}" #feed to the top end of the last upward cut in the Y direction
+	puts "G1X#{(width/2).round(3)}" 	#feed to the x center of the stock
+	puts "G1Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}" #feed to the top end of the last upward cut in the Y direction
 elsif remaining_y_stock == 0.000
-	puts "G1 Y#{(height/2).round(3)}" #feed to the y center of the stock
-	puts "G1 X#{(-tool_radius + i*radial_depth_of_cut).round(3)}" #feed to the right end of the last rightward cut in the X direction
+	puts "G1Y#{(height/2).round(3)}" #feed to the y center of the stock
+	puts "G1X#{(-tool_radius + i*radial_depth_of_cut).round(3)}" #feed to the right end of the last rightward cut in the X direction
 end
 
 #retract the tool to a safe height above the work surface
-puts "G91 G0 Z#{safe_height}"
+puts "G91G0Z#{safe_height}"
 puts "G90"
 
 #turn off the spindle and coolant 
@@ -119,4 +134,3 @@ puts "G0X0Y0"
 puts "M30"
 
 puts ""
-
