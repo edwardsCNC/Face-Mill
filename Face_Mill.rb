@@ -110,16 +110,6 @@ until remaining_x_stock < 0 || remaining_y_stock < 0
 
 end
 
-#if the material's height or width is exactly divisible by the radial depth of cut, there may be a very small line of uncut material in the center of the stock.
-#in this case, feed through the center of the stock to remove any remaining material.
-if remaining_x_stock == 0.000
-	puts "G1X#{(width/2).round(3)}" 	#feed to the x center of the stock
-	puts "G1Y#{(height + tool_radius - i*radial_depth_of_cut).round(3)}" #feed to the top end of the last upward cut in the Y direction
-elsif remaining_y_stock == 0.000
-	puts "G1Y#{(height/2).round(3)}" #feed to the y center of the stock
-	puts "G1X#{(-tool_radius + i*radial_depth_of_cut).round(3)}" #feed to the right end of the last rightward cut in the X direction
-end
-
 #retract the tool to a safe height above the work surface
 puts "G91G0Z#{safe_height}"
 puts "G90"
