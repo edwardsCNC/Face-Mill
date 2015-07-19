@@ -1,17 +1,6 @@
 require './Rectangle.rb'
 require './CNCHelper.rb'
 
-#explain the program
-	puts ""
-	puts "This utility creates a climb milling CNC program which can be used to machine a rectangular flat surface."
-	puts ""
-	puts "The tool will rapidly approach the workpiece in the +X direction from the -X direction. It will then start cutting in the +Y direction."
-	puts ""
-	puts "On the machine, X=0 and Y=0 should be set to the furthest -X and -Y point on the workpiece, with empty space on the -X side of the workpiece."
-	puts ""
-	puts "Before running your CNC program, move the tool to the empty space to the -X side of the workpiece, and set your tool at the desired Z depth."
-
-
 #get user input
 	puts ""
 	puts "You will now be prompted to input specifications of your desired program."

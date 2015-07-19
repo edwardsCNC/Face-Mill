@@ -29,7 +29,7 @@ class CNCHelper
 		#tool selection
 		puts "T#{@tool_number}M06"
 
-		#assumes approach in +X direction from -X position
+		#approach in +X direction from -X position
 		#rapid feed to safe position before machining
 		puts "G0X#{(-2*@tool_radius).round(3)}Y#{(-2*@tool_radius).round(3)}"
 
