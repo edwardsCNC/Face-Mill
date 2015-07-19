@@ -49,7 +49,7 @@ class CNCHelper
 		puts "M04M09"
 
 		#return to X0Y0
-		puts "G0X0Y0"
+		puts "G0X0.0Y0.0"
 
 		#end the program
 		puts "M30"
