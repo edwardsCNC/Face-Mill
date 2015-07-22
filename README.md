@@ -6,7 +6,7 @@ This application requires installation of [Ruby](https://www.ruby-lang.org/en/) 
 
 
 Executing the application:
-Download the .zip file and extract all files to a directory of your choice. Fire up your console and navigate to this directory. Run:
+Download the .zip file and extract the contents to a directory of your choice. Fire up your console and navigate to this directory. Execute:
 ```bash
 ruby Face_Mill.rb
 ```
