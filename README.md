@@ -39,7 +39,7 @@ At the end of the program, the tool will retract to a safe height above the mate
 What is the safe height for rapid XY motion?
 0.25
 
-Here is your CNC program:
+Here is your CNC program: (Edit this to add spindle speed, coolant control, tool numbers, etc. as necessary)
 
 G0X-0.25Y-0.25
 G1X0.1Y0.1F15.0
