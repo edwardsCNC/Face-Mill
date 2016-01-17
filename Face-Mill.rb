@@ -30,7 +30,7 @@ require './CNCHelper.rb'
 	safe_height = Float(gets)
 	puts ""
 
-	puts "Here is your CNC program:"
+	puts "Here is your CNC program. (Edit this to add spindle speed, coolant control, tool numbers, etc. as necessary)"
 	puts ""
 
 helper = CNCHelper.new(tool_radius, radial_depth_of_cut, feedrate, safe_height)
