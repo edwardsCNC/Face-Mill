@@ -73,3 +73,5 @@ G1Y1.45
 G91G0Z0.25
 G90
 G0X0.0Y0.0
+
+This application was authored by Nick Edwards in 2015-2016. To contribute to this code base, create a pull request to https://github.com/edwardsCNC/Face-Mill
