@@ -30,6 +30,8 @@ require './CNCHelper.rb'
 	safe_height = Float(gets)
 	puts ""
 
+	puts "CNC mill setup instructions: The tool will rapidly approach the workpiece in the +X direction from the -X direction. It will then start cutting in the +Y direction. On the machine, X=0 and Y=0 should be set to the furthest -X and -Y point on the workpiece, with empty space on the -X side of the workpiece. Before running your CNC program, move the tool to the empty space to the -X side of the workpiece, and set your tool at the Z depth for your desired axial depth of cut."
+
 	puts "Here is your CNC program. (Edit this to add spindle speed, coolant control, tool numbers, etc. as necessary)"
 	puts ""
 
