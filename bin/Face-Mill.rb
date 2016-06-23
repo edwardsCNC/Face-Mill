@@ -1,5 +1,5 @@
-require './Rectangle.rb'
-require './CNCHelper.rb'
+require '../lib/Rectangle.rb'
+require '../lib/CNCHelper.rb'
 
 #get user input
 
