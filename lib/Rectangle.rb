@@ -10,6 +10,30 @@ class Rectangle
 		#later, as material is cut away, the remaining material will be reduced.
 		@remaining_x_material = @width
 		@remaining_y_material = @height
+
+		#an incrementer, available in the scope of all of these instance methods, will keep track of the number of +Y +X -Y -X cutting cycles already made
+		#each time a cut is made in a given direction, the distance of the next equivalent directional cut will be less by this incrementor times the radial depth of cut
+		@i = 1.000
+	end
+
+	#generate CNC code for moving the cutting tool in the +Y direction
+	def generate_plus_y_cut
+		puts "G1Y#{(@height + @tool_radius - @i*@radial_depth_of_cut).round(3)}"
+	end
+
+	#generate CNC code for moving the cutting tool in the +X direction
+	def generate_plus_x_cut
+		puts "G1X#{(@width + @tool_radius - @i*@radial_depth_of_cut).round(3)}"
+	end
+
+	#generate CNC code for moving the cutting tool in the -Y direction
+	def generate_minus_y_cut
+		puts "G1Y#{(-@tool_radius + @i*@radial_depth_of_cut).round(3)}"
+	end
+
+	#generate CNC code for moving the cutting tool in the -X direction
+	def generate_minus_x_cut
+		puts "G1X#{(-@tool_radius + @i*@radial_depth_of_cut).round(3)}"
 	end
 
 	#whenever the cutting tool is moved in the Y direction, the remaining width of material is reduced.
@@ -27,35 +51,30 @@ class Rectangle
 		true if (@remaining_x_material < 0) || (@remaining_y_material < 0)
 	end
 
+	#generate a toolpath / CNC program that feeds along successively smaller edges of remaining material
+	#each cycle follows a pattern of +Y +X -Y -X cuts
 	def generate_face_milling_toolpath
-		#define a local variable needed in the toolpath generating block.
-		i = 1.000
 
-		#generate a toolpath / CNC program that feeds along successively smaller edges of remaining material
 		until cutting_complete?
 
-			#move the cutting tool in the +Y direction, which reduces the remaining width.
-			puts "G1Y#{(@height + @tool_radius - i*@radial_depth_of_cut).round(3)}"
+				generate_plus_y_cut
 				reduce_width
 				break if cutting_complete?
 
-			#move the cutting tool in the +X direction, which reduces the remaining height.
-			puts "G1X#{(@width + @tool_radius -i*@radial_depth_of_cut).round(3)}"
+				generate_plus_x_cut
 				reduce_height
 				break if cutting_complete?
 
-			#move the cutting tool in the -Y direction, which reduces the remaining width.
-			puts "G1Y#{(-@tool_radius + i*@radial_depth_of_cut).round(3)}"
+				generate_minus_y_cut
 				reduce_width
 				break if cutting_complete?
 
-			#during the first +Y cut within this block, the cutting tool removed material from the left side of the material.
-			#the upcoming -X cut will end by positioning the tool in an X position that is one radial depth of cut further in the +X direction.
-			#since the X position is determined by the incrementer times the radial depth of cut, increase the incrementer now.
-			i += 1.000
+				#during the first +Y cut within this block, the cutting tool removed material from the left side of the material.
+				#the upcoming -X cut will end by positioning the tool in an X position that is one radial depth of cut further in the +X direction.
+				#since the X position is determined by the incrementer times the radial depth of cut, increase the incrementer now.
+				@i += 1.000
 
-			#move the cutting tool in the -X direction, which reduces the remaining height.
-			puts "G1X#{(-@tool_radius + i*@radial_depth_of_cut).round(3)}"
+				generate_minus_x_cut
 				reduce_height
 				break if cutting_complete?
 
