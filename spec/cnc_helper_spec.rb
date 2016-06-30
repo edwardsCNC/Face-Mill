@@ -23,4 +23,9 @@ RSpec.describe CNCHelper do
     expect {helper.program_after_face_milling}.to output(/G91G0Z0.25\nG90/).to_stdout
   end
 
+  it "generates a rapid feed toolpath to return the tool to X0.0Y0.0" do
+    helper = CNCHelper.new(0.125, 0.225, 15.0, 0.25)
+    expect {helper.program_after_face_milling}.to output(/G0X0.0Y0.0/).to_stdout
+  end
+
 end
