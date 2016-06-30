@@ -8,4 +8,9 @@ RSpec.describe CNCHelper do
     expect {helper.program_before_face_milling}.to output(/G0X-0.25Y-0.25\n/).to_stdout	
   end
 
+  it "generates a feed toolpath to the position of the first cut" do 
+  	helper = CNCHelper.new(0.125, 0.225, 15.0, 0.25)
+  	expect {helper.program_before_face_milling}.to output(/G1X0.1Y0.1/).to_stdout
+  end
+
 end
