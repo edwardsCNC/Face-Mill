@@ -13,4 +13,9 @@ RSpec.describe CNCHelper do
   	expect {helper.program_before_face_milling}.to output(/G1X0.1Y0.1/).to_stdout
   end
 
+  it "completes the initial feed command with the feedrate specified by the user" do
+  	helper = CNCHelper.new(0.125, 0.225, 15.0, 0.25)
+  	expect {helper.program_before_face_milling}.to output(/F15.0\n/).to_stdout
+  end
+
 end
