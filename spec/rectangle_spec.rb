@@ -6,7 +6,7 @@ RSpec.describe Rectangle do
 	let(:rectangle) { Rectangle.new(0.5, 0.5, 0.125, 0.225) }
 
 	it "generates a face-milling toolpath which mills the entire flat surface specified by the user" do
-		expect {rectangle.generate_face_milling_toolpath}.to output("G1Y0.4\nG1X0.4\nG1Y0.1\nG1X0.325\nG1Y0.175\n").to_stdout
+		expect {rectangle.generate_face_milling_toolpath}.to output(/G1Y0.4\nG1X0.4\nG1Y0.1\nG1X0.325\nG1Y0.175\n/).to_stdout
 	end
 
 	let(:rectangle_small_x_stock) { Rectangle.new(0.5, 1.0, 0.125, 0.225) }
