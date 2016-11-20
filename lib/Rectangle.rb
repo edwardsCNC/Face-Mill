@@ -16,6 +16,40 @@ class Rectangle
 		@i = 1.000
 	end
 
+	public
+
+	#generate a toolpath / CNC program that feeds along successively smaller edges of remaining material
+	#each cycle follows a pattern of +Y +X -Y -X cuts
+	def generate_face_milling_toolpath
+
+		until cutting_complete?
+
+				generate_plus_y_cut
+				reduce_width
+				break if cutting_complete?
+
+				generate_plus_x_cut
+				reduce_height
+				break if cutting_complete?
+
+				generate_minus_y_cut
+				reduce_width
+				break if cutting_complete?
+
+				#during the first +Y cut within this block, the cutting tool removed material from the left side of the material.
+				#the upcoming -X cut will end by positioning the tool in an X position that is one radial depth of cut further in the +X direction.
+				#since the X position is determined by the incrementer times the radial depth of cut, increase the incrementer now.
+				@i += 1.000
+
+				generate_minus_x_cut
+				reduce_height
+				break if cutting_complete?
+
+		end
+	end
+
+	private
+
 	#generate CNC code for moving the cutting tool in the +Y direction
 	def generate_plus_y_cut
 		puts "G1Y#{(@height + @tool_radius - @i*@radial_depth_of_cut).round(3)}"
@@ -49,36 +83,6 @@ class Rectangle
 	#returns true if either all X stock has been cut away or all Y stock has been cut away.
 	def cutting_complete?
 		true if (@remaining_x_material < 0) || (@remaining_y_material < 0)
-	end
-
-	#generate a toolpath / CNC program that feeds along successively smaller edges of remaining material
-	#each cycle follows a pattern of +Y +X -Y -X cuts
-	def generate_face_milling_toolpath
-
-		until cutting_complete?
-
-				generate_plus_y_cut
-				reduce_width
-				break if cutting_complete?
-
-				generate_plus_x_cut
-				reduce_height
-				break if cutting_complete?
-
-				generate_minus_y_cut
-				reduce_width
-				break if cutting_complete?
-
-				#during the first +Y cut within this block, the cutting tool removed material from the left side of the material.
-				#the upcoming -X cut will end by positioning the tool in an X position that is one radial depth of cut further in the +X direction.
-				#since the X position is determined by the incrementer times the radial depth of cut, increase the incrementer now.
-				@i += 1.000
-
-				generate_minus_x_cut
-				reduce_height
-				break if cutting_complete?
-
-		end
 	end
 
 end
